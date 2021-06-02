@@ -2,6 +2,9 @@
 </div>
 	</div>
 </div>
+<div class="total-coub-count">
+    <span class="total"><?=$LIB['PAGINATION']['ITEM_COUNT']['count(ID)']?></span> / <span class="loaded"><?=$LIB['LOAD_NOW']?></span>
+</div>
 <footer>
     <!-- <div class="container">Footer</div> -->
 </footer>

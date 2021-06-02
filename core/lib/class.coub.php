@@ -12,12 +12,10 @@ class Coub extends crud {
 		return $this->crudCreate($fields);
 	}
 
-	public function Read($ID = false, $fields = [], $SORT = false) {
+	public function Read($ID = false, $fields = [], $onPage = 0, $SORT = false) {
 		// 
-		$arItem = $this->crudRead($ID, $fields, $SORT);
-		if(!$arItem['ROW_S']) $arItem = $arItem[array_key_first($arItem)];
-		unset($arItem['ROW_S']);
-		return $arItem;
+		$arItem = $this->crudRead($ID, $fields, $onPage, $SORT);
+		return $this->row_s($arItem);
 	}
 
 	public function list($readResult = []) {
@@ -25,9 +23,13 @@ class Coub extends crud {
 		foreach($readResult as $item) {
 			$previewPath = '/static/images/upload/'.$item['COUB_ID'].'.jpg';
 			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$previewPath)) {
-				$coubObj = json_decode(file_get_contents('http://coub.com/api/oembed.json?url=http%3A//coub.com/view/'.$item['COUB_ID'].'&autoplay=true&maxwidth=500&maxheight=500'));
-				$this->Update($item['ID'], ['TITLE' => addslashes($coubObj->title)]);
-				$item['TITLE'] = $coubObj->title;
+				$coubObj = json_decode(@file_get_contents('http://coub.com/api/oembed.json?url=http%3A//coub.com/view/'.$item['COUB_ID'].'&autoplay=true&maxwidth=500&maxheight=500'));
+				if(!$coubObj) {
+					$LIB['COUB']->Update(36, ['TAGS' => 'Удален']);
+					continue;
+				}
+				// $this->Update($item['ID'], ['TITLE' => addslashes($coubObj->title)]);
+				$item['TITLE'] = 'test';//$coubObj->title;
 				file_put_contents($_SERVER['DOCUMENT_ROOT'].$previewPath, file_get_contents($coubObj->thumbnail_url));
 			}
 			// Подключение шаблона

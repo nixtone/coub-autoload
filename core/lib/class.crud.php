@@ -27,19 +27,37 @@ class crud {
 		}
 	}
 
+	public function row_s($arItem) {
+		if(!$arItem['ROW_S']) $arItem = $arItem[array_key_first($arItem)];
+		unset($arItem['ROW_S']);
+		return $arItem;
+	}
+
 	public function crudCreate($fields = '') {
 		$this->checkFields($fields);
 		return DB::Query("INSERT INTO `".ENV['DB']['PREFIX'].$this->table['NAME']."` VALUES(".DB::insertChain($fields, $this->table['FIELDS']).")", 'lastId');
 	}
 
-	public function crudRead($ID = false, $fields = [], $SORT = false) {
+	public function crudRead($ID = false, $fields = [], $onPage = 0, $SORT = false) {
 		$LIMIT = '';
 		if($ID AND $ID != 'row') $fields['ID'] = $ID;
-		if($SORT) $SORT = " ORDER BY `".array_key_first($SORT)."` ".$SORT[array_key_first($SORT)];
-		if(isset($fields['LIMIT'])) {
-			$LIMIT = " LIMIT ".$fields['LIMIT'];
-			unset($fields['LIMIT']);
+		
+		if(isset($fields['PAGE'])) {
+			$page = (int)$fields['PAGE'];
+			unset($fields['PAGE']);
 		}
+		else {
+			$page = $_GET['page'] ?? 0;
+		}
+		if($onPage) {
+			global $LIB;
+			$LIB['PAGINATION']['ITEM_COUNT'] = DB::Query("SELECT count(ID) FROM `".$this->table['NAME']."`".DB::Where($fields), 'row'); // Кол-во записей из запроса
+			ceil($LIB['PAGINATION']['ITEM_COUNT']['count(ID)'] / $onPage); // Кол-во страниц
+			$LIB['PAGINATION']['START'] = $page ? ($page - 1) * $onPage : 0;
+			$LIMIT = " LIMIT {$LIB['PAGINATION']['START']}, {$onPage}";
+			$LIB['PAGINATION']['ONPAGE'] = $onPage;
+		}
+		if($SORT) $SORT = " ORDER BY `".array_key_first($SORT)."` ".$SORT[array_key_first($SORT)];
 		$arList = DB::Query("SELECT * FROM `".ENV['DB']['PREFIX'].$this->table['NAME']."`".DB::Where($fields).$SORT.$LIMIT, 'rows');
 		$arList['ROW_S'] = (is_array($ID) AND $ID != 'row' OR empty($ID)) ? true : false ;
 		return $arList;

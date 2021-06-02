@@ -14,7 +14,7 @@ $(document).ready(function() {
 		});
 	}
 	fancyAppoint();
-	/*
+	
     var inProcess = false;
 	$(window).scroll(function() {
 		if($(window).scrollTop() + $(window).height() >= $(document).height() && !inProcess) {
@@ -34,6 +34,8 @@ $(document).ready(function() {
 				$("#coub_page .wrap").append(data);
 				fancyAppoint();
 				inProcess = false;
+				// console.log(Number($(".total-coub-count .loaded").html()));
+				$(".total-coub-count .loaded").html(Number($(".total-coub-count .loaded").html()) + 10);
 			});
 			
 		}
@@ -41,5 +43,5 @@ $(document).ready(function() {
 	$(document).keydown(function(event) {
 		if(event.ctrlKey && event.keyCode == 40) $(window).trigger('scroll'); // Ctrl + Стрелка вниз
 	});
-	*/
+	
 });
