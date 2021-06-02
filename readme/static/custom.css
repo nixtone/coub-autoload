@@ -1,0 +1,66 @@
+.bimg, .bimg img {
+	display: block;
+	width: 100%;
+}
+
+#coub_page {
+	max-width: 920px;
+	box-sizing: border-box;
+	margin: 0 auto;
+	padding: 30px 0 50px;
+	position: relative;
+}
+#coub_page::before {
+	content: 'Нажми Ctrl + Стрелка вниз, для подгрузки кубов';
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#coub_page form {
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-bottom: 15px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 100px;
+	grid-gap: 10px;
+}
+#coub_page .wrap {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-gap: 10px;
+}
+#coub_page .item {
+	background: #eee;
+}
+#coub_page .link {
+	display: block;
+	position: relative;
+	color: #fff;
+}
+#coub_page .name {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 5px;
+	text-align: center;
+	background: rgba(0,0,0,0.3);
+	width: 100%;
+	box-sizing: border-box;
+}
+#coub_page .item:hover .name {
+	display: block;
+}
+#coub_page .tags {
+	padding: 5px 0 5px 5px;
+	display: flex;
+	align-items: start;
+	flex-wrap: wrap;
+}
+#coub_page .tag {
+	background: #ccc;
+	padding: 0 6px 4px 6px;
+	display: block;
+	margin: 0 5px 5px 0;
+}
