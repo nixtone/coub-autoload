@@ -8,6 +8,8 @@ class Coub extends crud {
 	}
 
 	public function Create($fields = []) {
+		// Поиск дублей
+		// if($this->repeatMatch('COUB_ID', $fields)) return false;
 		// 
 		return $this->crudCreate($fields);
 	}

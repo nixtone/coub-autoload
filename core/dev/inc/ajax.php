@@ -6,6 +6,10 @@ if($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
 			$result = $LIB['COUB']->List($LIB['COUB']->Read(false, ['WHERE' => "ID > {$_POST['FROM']} LIMIT 10"]));
 			// $result = true;
 		} break;
+		case 'ADD_COUB': {
+			
+			$result = $LIB['COUB']->Create(['COUB_ID' => $_POST['COUB_ID'], 'TAGS' => $_POST['TAGS']]);
+		} break;
 		/*
 		case '': {
 			

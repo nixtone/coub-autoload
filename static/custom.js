@@ -43,5 +43,22 @@ $(document).ready(function() {
 	$(document).keydown(function(event) {
 		if(event.ctrlKey && event.keyCode == 40) $(window).trigger('scroll'); // Ctrl + Стрелка вниз
 	});
+
+	// Попап
+    $(".cpp").click(function(event) {
+        event.preventDefault();
+        $(".overlay .inner > *").hide();
+        $(".overlay, .overlay ."+$(this).data('pp')).fadeIn(150).find("input[type='text']").val('');
+    });
+    $(".overlay").click(function(event) {
+        if(!$(".popup").is(event.target) && $(".popup").has(event.target).length === 0 || event.target.className == "close") $(".overlay").fadeOut(150);
+    });
+
+    $(".add_coub").submit(function(event) {
+    	event.preventDefault();
+    	$.post(path.ajax, $(this).serialize(), function(data) {
+    		$(".overlay").fadeOut(150);
+    	});
+    });
 	
 });

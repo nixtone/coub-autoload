@@ -1,12 +1,17 @@
 <?
 require_once($_SERVER['DOCUMENT_ROOT'].'/core/lib/index.php');
 
+// p($LIB['COUB']->Create(['COUB_ID' => '1qcygi']));
+
 // Сколько загрузить кубов сразу
 $LIB['LOAD_NOW'] = 30;
 
 include($_SERVER['DOCUMENT_ROOT'].'/core/dev/header.php');
 $LIB['COUB']->List($LIB['COUB']->Read(false, ['PAGE' => 1], $LIB['LOAD_NOW']));
 include($_SERVER['DOCUMENT_ROOT'].'/core/dev/footer.php');
+
+
+
 
 
 /*

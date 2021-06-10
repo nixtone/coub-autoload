@@ -33,6 +33,10 @@ class crud {
 		return $arItem;
 	}
 
+	public function repeatMatch($fieldName, &$fields) {
+		return empty($this->row_s($this->crudRead(false, [$fieldName => $fields[$fieldName]]))) ? false : true;
+	}
+
 	public function crudCreate($fields = '') {
 		$this->checkFields($fields);
 		return DB::Query("INSERT INTO `".ENV['DB']['PREFIX'].$this->table['NAME']."` VALUES(".DB::insertChain($fields, $this->table['FIELDS']).")", 'lastId');
@@ -41,7 +45,6 @@ class crud {
 	public function crudRead($ID = false, $fields = [], $onPage = 0, $SORT = false) {
 		$LIMIT = '';
 		if($ID AND $ID != 'row') $fields['ID'] = $ID;
-		
 		if(isset($fields['PAGE'])) {
 			$page = (int)$fields['PAGE'];
 			unset($fields['PAGE']);
